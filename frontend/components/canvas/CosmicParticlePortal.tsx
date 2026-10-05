@@ -225,6 +225,14 @@ export default function CosmicParticlePortal() {
     const height = currentMount.clientHeight || window.innerHeight;
 
 
+    // Pre-warm backend immediately on landing page load to prevent/eliminate cold start
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://jnana-ai.onrender.com";
+    const pingBackend = () => {
+      fetch(`${apiBase}/health`, { method: "GET", mode: "no-cors" }).catch(() => {});
+    };
+    pingBackend();
+    const keepAliveInterval = setInterval(pingBackend, 10 * 60 * 1000);
+
     // -------------------------------------------------------------------------
     // 1. THREE.JS SCENE, PERSPECTIVE CAMERA, AND WEBGL RENDERER
     // -------------------------------------------------------------------------
@@ -410,8 +418,8 @@ export default function CosmicParticlePortal() {
       const isPortrait = aspect < 1.0;
       
       // Compact vertical framing: Stage 4 has an extra CTA button and longer text,
-      // so we use slightly more conservative vertical fill to guarantee ample breathing room
-      const fillH = stageIdx === 3 ? (isPortrait ? 0.32 : 0.33) : (isPortrait ? 0.38 : 0.38);
+      // so we use conservative vertical fill to guarantee ample breathing room
+      const fillH = stageIdx === 3 ? (isPortrait ? 0.30 : 0.31) : (isPortrait ? 0.38 : 0.38);
       const fillW = isPortrait ? 0.68 : 0.52;
 
       const reqH_fromH = h / fillH;
@@ -615,12 +623,12 @@ export default function CosmicParticlePortal() {
         }
       }
 
-      // Dynamic camera elevation: positions the 3D figures in the 42%-78% vertical zone,
-      // creating an untouchable pure white space buffer for the headline & CTA button at the top.
+      // Dynamic camera elevation: positions the 3D figures in the 48%-82% vertical zone,
+      // creating an untouchable, generous 80px+ pure white space buffer for the headline & CTA button at the top.
       const isPortrait = currentAspect < 1.0;
       const stageCamY = isPortrait
-        ? [0.52, 0.65, 0.65, 1.15]
-        : [0.46, 0.58, 0.58, 1.12];
+        ? [0.55, 0.70, 0.75, 2.50]
+        : [0.50, 0.65, 0.70, 2.40];
 
       let targetCamY = stageCamY[0];
       if (t < 1.0) {
@@ -654,6 +662,7 @@ export default function CosmicParticlePortal() {
     // -------------------------------------------------------------------------
     return () => {
       isMounted = false;
+      clearInterval(keepAliveInterval);
       cancelAnimationFrame(animId);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
@@ -727,14 +736,14 @@ export default function CosmicParticlePortal() {
         return (
           <div
             key={st.idx}
-            className="absolute top-12 sm:top-14 md:top-16 left-0 right-0 mx-auto w-full max-w-xl md:max-w-2xl px-4 sm:px-8 text-center z-10 pointer-events-none transition-transform duration-100 ease-out"
+            className="absolute top-10 sm:top-12 md:top-14 left-0 right-0 mx-auto w-full max-w-xl md:max-w-2xl px-4 sm:px-8 text-center z-10 pointer-events-none transition-transform duration-100 ease-out"
             style={{
               opacity,
               transform: `translateY(${translateY}px)`,
             }}
           >
             {/* Domain Kicker Badge */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-white/92 backdrop-blur-md border border-[#E5DECE] shadow-2xs mb-1.5 sm:mb-2 pointer-events-auto">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-white/92 backdrop-blur-md border border-[#E5DECE] shadow-2xs mb-1 sm:mb-1.5 pointer-events-auto">
               <span className="w-1.5 h-1.5 rounded-full bg-[#9A6A15] animate-pulse" />
               <span className="font-serif text-[9px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.22em] uppercase text-[#7A4E0B] font-semibold">
                 {st.badge}
@@ -742,18 +751,18 @@ export default function CosmicParticlePortal() {
             </div>
 
             {/* Core One-Liner Headline */}
-            <h2 className="font-serif text-[13.5px] sm:text-xl md:text-2xl font-medium sm:font-semibold text-[#1F1D1A] leading-snug tracking-[0.015em] mb-1 sm:mb-2 max-w-[320px] sm:max-w-xl mx-auto pointer-events-auto">
+            <h2 className="font-serif text-[13.5px] sm:text-xl md:text-2xl font-medium sm:font-semibold text-[#1F1D1A] leading-snug tracking-[0.015em] mb-1 max-w-[320px] sm:max-w-xl mx-auto pointer-events-auto">
               <InteractiveSentence text={st.headline} />
             </h2>
 
-            {/* Sub-Content (Plus Jakarta Sans - previous font) */}
+            {/* Sub-Content */}
             <p className="font-sans text-[10.5px] sm:text-sm text-[#554D42] leading-relaxed max-w-[280px] sm:max-w-lg mx-auto pointer-events-auto">
               <InteractiveSentence text={st.subtext} />
             </p>
 
             {/* Optional CTA Button for Stage 4 */}
             {st.showCta && (
-              <div className="mt-2.5 sm:mt-3.5 pointer-events-auto">
+              <div className="mt-2 sm:mt-2.5 pointer-events-auto">
                 <button
                   onClick={() => setIsChatOpen(true)}
                   className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-1.5 sm:py-2.5 rounded-full bg-gradient-to-r from-[#9A6A15] via-[#B68424] to-[#9A6A15] text-white font-serif text-[10px] sm:text-xs tracking-[0.16em] sm:tracking-[0.18em] font-semibold uppercase shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"

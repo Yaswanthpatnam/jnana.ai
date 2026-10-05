@@ -1,0 +1,23 @@
+name: Backend Keep-Alive
+
+on:
+  schedule:
+    # Runs every 14 minutes to prevent Render free-tier from sleeping (15-min idle timeout)
+    - cron: "*/14 * * * *"
+  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+
+jobs:
+  ping:
+    name: Warm Render Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Keep-Alive Ping
+        run: |
+          echo "Sending keep-alive ping to Jnana AI backend on Render..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://jnana-ai.onrender.com/health)
+          echo "Render Backend responded with HTTP status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "Backend is warm and healthy."
+          else
+            echo "Backend ping finished with status: $HTTP_STATUS"
+          fi

@@ -64,7 +64,10 @@ async def root():
         "docs": "/docs"
     }
 
+@app.get("/health", response_model=HealthResponse, tags=["Health"])
+@app.head("/health", tags=["Health"])
 @app.get("/api/v1/health", response_model=HealthResponse, tags=["Health"])
+@app.head("/api/v1/health", tags=["Health"])
 async def health_check():
     """Returns the operational status of the vector database and loaded verse counts."""
     return HealthResponse(

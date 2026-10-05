@@ -301,6 +301,7 @@ export default function AboutModal({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF7F0] hover:bg-[#F2ECE0] text-[#1C1A17] border border-[#D5CCA8] text-xs font-serif tracking-wider transition-all cursor-pointer shadow-2xs"
+                    title="Yaswanth Babu Patnam GitHub Profile"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
                     <span>GitHub</span>
@@ -311,20 +312,21 @@ export default function AboutModal({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF7F0] hover:bg-[#F2ECE0] text-[#0A66C2] border border-[#D5CCA8] text-xs font-serif tracking-wider transition-all cursor-pointer shadow-2xs"
+                    title="Yaswanth Babu Patnam LinkedIn Profile"
                   >
                     <LinkedinIcon className="w-3.5 h-3.5" />
                     <span>LinkedIn</span>
                   </a>
 
-
                   <a
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF7F0] text-[#8C8477] border border-[#E2D9C8] text-xs font-serif tracking-wider cursor-default shadow-2xs opacity-85"
-                    title="Repository release coming soon"
+                    href="https://github.com/Yaswanthpatnam/jnana.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF7F0] hover:bg-[#F2ECE0] text-[#1C1A17] hover:text-[#9A6A15] border border-[#D5CCA8] hover:border-[#D4A034] text-xs font-serif tracking-wider transition-all cursor-pointer shadow-2xs group"
+                    title="View jnana.ai Open-Source Repository on GitHub"
                   >
-                    <Code2 className="w-3.5 h-3.5" />
-                    <span>Repository</span>
+                    <Code2 className="w-3.5 h-3.5 text-[#9A6A15] group-hover:scale-110 transition-transform" />
+                    <span>jnana.ai Repo</span>
                   </a>
                 </div>
               </div>
