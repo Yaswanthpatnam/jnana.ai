@@ -52,6 +52,18 @@ app.add_middleware(
 # Mount API Routers
 app.include_router(chat_router, prefix="/api/v1")
 
+@app.get("/", tags=["Root"])
+@app.head("/", tags=["Root"])
+async def root():
+    """Root endpoint for cloud platform health pings and service discovery."""
+    return {
+        "service": "jnana.ai",
+        "description": "AI Wisdom Companion grounded in the 701 Sacred Verses of the Bhagavad Gita",
+        "status": "online",
+        "health": "/api/v1/health",
+        "docs": "/docs"
+    }
+
 @app.get("/api/v1/health", response_model=HealthResponse, tags=["Health"])
 async def health_check():
     """Returns the operational status of the vector database and loaded verse counts."""
