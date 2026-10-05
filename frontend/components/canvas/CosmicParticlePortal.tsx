@@ -409,8 +409,9 @@ export default function CosmicParticlePortal() {
       const { w, h } = STAGE_DIMS[stageIdx];
       const isPortrait = aspect < 1.0;
       
-      // Compact vertical framing to guarantee 35%+ unobstructed white space for text at the top
-      const fillH = isPortrait ? 0.38 : 0.38;
+      // Compact vertical framing: Stage 4 has an extra CTA button and longer text,
+      // so we use slightly more conservative vertical fill to guarantee ample breathing room
+      const fillH = stageIdx === 3 ? (isPortrait ? 0.32 : 0.33) : (isPortrait ? 0.38 : 0.38);
       const fillW = isPortrait ? 0.68 : 0.52;
 
       const reqH_fromH = h / fillH;
@@ -614,12 +615,12 @@ export default function CosmicParticlePortal() {
         }
       }
 
-      // Dynamic camera elevation: positions the 3D figures in the 38%-75% vertical zone,
-      // creating an untouchable 35%+ pure white space buffer for the headline & text at the top.
+      // Dynamic camera elevation: positions the 3D figures in the 42%-78% vertical zone,
+      // creating an untouchable pure white space buffer for the headline & CTA button at the top.
       const isPortrait = currentAspect < 1.0;
       const stageCamY = isPortrait
-        ? [0.52, 0.65, 0.65, 0.70]
-        : [0.46, 0.58, 0.58, 0.65];
+        ? [0.52, 0.65, 0.65, 1.15]
+        : [0.46, 0.58, 0.58, 1.12];
 
       let targetCamY = stageCamY[0];
       if (t < 1.0) {
@@ -726,7 +727,7 @@ export default function CosmicParticlePortal() {
         return (
           <div
             key={st.idx}
-            className="absolute top-15 sm:top-16 md:top-20 left-0 right-0 mx-auto w-full max-w-xl md:max-w-2xl px-4 sm:px-8 text-center z-10 pointer-events-none transition-transform duration-100 ease-out"
+            className="absolute top-12 sm:top-14 md:top-16 left-0 right-0 mx-auto w-full max-w-xl md:max-w-2xl px-4 sm:px-8 text-center z-10 pointer-events-none transition-transform duration-100 ease-out"
             style={{
               opacity,
               transform: `translateY(${translateY}px)`,
