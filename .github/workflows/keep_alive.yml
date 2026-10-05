@@ -14,7 +14,7 @@ jobs:
       - name: Send Keep-Alive Ping
         run: |
           echo "Sending keep-alive ping to Jnana AI backend on Render..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://jnana-ai.onrender.com/health)
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://jnana-ai.onrender.com/api/v1/health)
           echo "Render Backend responded with HTTP status: $HTTP_STATUS"
           if [ "$HTTP_STATUS" -eq 200 ]; then
             echo "Backend is warm and healthy."

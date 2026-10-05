@@ -228,7 +228,7 @@ export default function CosmicParticlePortal() {
     // Pre-warm backend immediately on landing page load to prevent/eliminate cold start
     const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://jnana-ai.onrender.com";
     const pingBackend = () => {
-      fetch(`${apiBase}/health`, { method: "GET", mode: "no-cors" }).catch(() => {});
+      fetch(`${apiBase}/api/v1/health`, { method: "GET", mode: "no-cors" }).catch(() => {});
     };
     pingBackend();
     const keepAliveInterval = setInterval(pingBackend, 10 * 60 * 1000);
