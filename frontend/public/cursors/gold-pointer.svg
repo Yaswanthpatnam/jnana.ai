@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="goldPointerGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF2B8"/>
+      <stop offset="35%" stop-color="#F2C24E"/>
+      <stop offset="100%" stop-color="#A87519"/>
+    </linearGradient>
+  </defs>
+  <!-- Native Hardware Drop Shadow -->
+  <path d="M4 3.5L21 16.5L13 18L9.5 26.5L4 3.5Z" fill="#3D2906" fill-opacity="0.32"/>
+  <!-- Base Arrow Pointer -->
+  <path d="M3 2L20 15L12 16.5L8.5 25L3 2Z" fill="url(#goldPointerGrad)" stroke="#5E3803" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Highlight Facet -->
+  <path d="M4.5 4L16.5 13.8L11.5 15L8.8 21.5L4.5 4Z" fill="#FFFFFF" fill-opacity="0.55"/>
+  <!-- Sacred 4-point golden star on the tail/side -->
+  <g transform="translate(19, 17) scale(0.9)">
+    <path d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8L5 0Z" fill="#E5B239" stroke="#6A4105" stroke-width="0.7"/>
+    <circle cx="5" cy="5" r="1.2" fill="#FFFFFF"/>
+  </g>
+</svg>

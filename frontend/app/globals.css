@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: var(--font-cinzel), Georgia, serif;
+  --font-display: var(--font-cinzel-decorative), Georgia, serif;
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  --font-sanskrit: var(--font-sanskrit), "Noto Serif Devanagari", serif;
+}
+
+/* Custom luxury ivory & sacred gold scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5DECE;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4A034;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.04); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 7s ease-in-out infinite;
+}
+
+/* Ensure Next.js dev indicator overlay and badges are completely hidden */
+nextjs-portal,
+[data-nextjs-indicator],
+[data-nextjs-toast],
+[data-nextjs-dev-tools-button],
+div[data-nextjs-dialog-overlay] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Sacred Gold Arrow & Pointer Cursors */
+*,
+html,
+body,
+div,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  cursor: url('/cursors/gold-arrow.svg') 3 2, auto;
+}
+
+
+a,
+button,
+[role="button"],
+select,
+[type="button"],
+[type="submit"],
+[type="reset"],
+label[for],
+.cursor-pointer {
+  cursor: url('/cursors/gold-pointer.svg') 3 2, pointer !important;
+}
+
+/* Text editing inputs */
+input[type="text"],
+input[type="search"],
+textarea {
+  cursor: text !important;
+}
+
