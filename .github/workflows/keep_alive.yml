@@ -2,8 +2,8 @@ name: Backend Keep-Alive
 
 on:
   schedule:
-    # Runs every 14 minutes to prevent Render free-tier from sleeping (15-min idle timeout)
-    - cron: "*/14 * * * *"
+    # Runs every 10 minutes to stay well ahead of Render's 15-minute idle timeout
+    - cron: "*/10 * * * *"
   workflow_dispatch: # Allows manual trigger from GitHub Actions UI
 
 jobs:
@@ -14,10 +14,12 @@ jobs:
       - name: Send Keep-Alive Ping
         run: |
           echo "Sending keep-alive ping to Jnana AI backend on Render..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://jnana-ai.onrender.com/api/v1/health)
-          echo "Render Backend responded with HTTP status: $HTTP_STATUS"
-          if [ "$HTTP_STATUS" -eq 200 ]; then
-            echo "Backend is warm and healthy."
+          # Allow up to 120s timeout because a sleeping Render container takes ~45-55s to boot.
+          # Use || echo "000" so curl timeouts or transient network drops never crash the GitHub Action.
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 30 --max-time 120 https://jnana-ai.onrender.com/api/v1/health || echo "000")
+          echo "Render Backend responded with status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Backend is warm, healthy, and operational."
           else
-            echo "Backend ping finished with status: $HTTP_STATUS"
+            echo "Ping registered (HTTP $HTTP_STATUS). Wake-up request sent to Render."
           fi
